@@ -1,0 +1,5 @@
+Installed 3 things:
+1. pip install flask 
+2. pip install flask-login # for logging users in 
+3. pip install flask-sqlalchemy # a database and wapper for sql make database modles and delete modles 
+ 
