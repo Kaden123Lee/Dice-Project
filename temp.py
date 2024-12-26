@@ -1,13 +1,13 @@
 from dice import dice
 import random
+
 my_dice = dice() # creates an instance of the class 
 num_choices = my_dice.getSides()
-prob = float(100 / num_choices)
-prob = round(prob, 2)
-print(prob)
+prob = round(float(100 / num_choices), 2)
+print(f"Probability for Each Number 1 - N: {prob}")
 two_d = []  # [number] & [probability]
 total = 0
-thing = True
+
 for i in range(1, my_dice.getSides() + 1): # goes through and creates a 2d array
     two_d.append([i, prob])
 for i in range(len(two_d)):

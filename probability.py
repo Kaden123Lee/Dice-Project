@@ -1,60 +1,47 @@
-"Changes the probibility that dice will land on a certain number"
+from dice import dice
 import random
-import dice
-import temp
-class probability:
-    def weighted_choice(choices):
-        total = temp.total # we start with 0
-        r = random.uniform(0, total) # saying from 0 to choice lets say 0 to 5
-        upto = 0
 
-        if 0 < r < temp.two_d[i, 1]:
-            
+class Probability:
+    def __init__(self, total = 0):
+        self.total = total
+        self.num_choices = dice().getSides()
+        self.two_d = []
+        self.probability_per_choice = round(100 / self.num_choices, 2)
+        self.populate_two_d() 
+# ------------------------------------------------------
+    def get_total(self):
+        total = 0
+        for i in range(len(self.two_d)):
+            total += self.two_d[i][1]
+        return total
+# ---------------------------------------------------
+    def get_num_choices(self):
+        return self.num_choices 
+# -------------------------------------------------     
+    def populate_two_d(self):
+        """Populate the 2D array with numbers and their probabilities."""
+        for i in range(1, self.num_choices + 1):
+            self.two_d.append([i, self.probability_per_choice])
+# ----------------------------------------------------------------
+    def generate_random_number(self):
+        """Simulate a random roll and return the result."""
+        r = random.uniform(0, self.get_total())
+        temp_total = 0
+        for row in self.two_d:
+            temp_total += row[1]
+            if r <= temp_total:
+                return row[0], r
+# --------------------------------------------------------------
+    def display(self):
+        """Print details of the 2D array and the total probability."""
+        print("2D Array (Number and Probability):", self.two_d)
+        print(f"Total Probability: {self.get_total():.2f}")
 
-        for key in keys:
-            if upto + choices[key] > r:
-                return key
-            upto += choices[key]
-
-            # 1: 20
-            # 2: 21-60
-# probability to be defined
-    def tem_prob(num_choices):
-        prob = float(100 / num_choices)
-
-    def get_user_probabilities(num_choices): 
-        getSides(self)
-        num_choices = dice.getSides()
-        prob = float(100 / num_choices)
-        prob = round(prob, 2)
-        print(prob)
-
-        
-    # Get number of choices from user
-    num_choices = int(input("Enter the number of choices: "))
-
-    # Get probabilities from user
-    probabilities = get_user_probabilities(num_choices)
-
-    # Create choices with weights
-    choices = {}
-    for i in range(num_choices):
-        choices[i + 1] = probabilities[i]
-
-    # Perform weighted random selection
-    result = weighted_choice(choices)
-    print("The chosen outcome is:", result)
-    # Get number of choices from user
-    num_choices = int(input("Enter the number of choices: "))
-
-    # Get probabilities from user
-    probabilities = get_user_probabilities(num_choices)
-
-    # Create choices with weights
-    choices = []
-    for i in range(num_choices):
-        choices.append((f"Choice {i+1}", probabilities[i]))
-
-    # Perform weighted random selection
-    result = weighted_choice(choices)
-    print("The chosen outcome is:", result)
+# Example Usage
+prob = Probability()
+print(f"Number of Choices: {prob.get_num_choices()}")
+print(f"Probability Per Choice: {prob.probability_per_choice}%")
+result, random_value = prob.generate_random_number()
+print(f"Generated Number: {result}, Random Value: {random_value}")
+prob.display()
+   
